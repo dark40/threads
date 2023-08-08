@@ -1,5 +1,6 @@
 "use client"
 
+import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button"
 import {
@@ -19,7 +20,8 @@ import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from '@/lib/uploadthing'
-
+import { updateUser } from "@/lib/actions/user.actions";
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
     user: {
@@ -39,6 +41,8 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
 
     const [files, setFiles] = useState<File[]>([]);
     const { startUpload } = useUploadThing("media")
+    const router = useRouter();
+    const pathname = usePathname();
 
     const form = useForm({
         resolver: zodResolver(UserValidation),
@@ -91,8 +95,20 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
             }
         }
 
-        // TODO: update the user profile 
+        await updateUser({
+            userId: user.id,
+            username: values.username,
+            name: values.name,
+            bio: values.bio,
+            image: values.profile_photo,
+            path: pathname,
+        })
 
+        if (pathname === '/profile/edit') {
+            router.back()
+        } else {
+            router.push('/')
+        }
     }
 
 
