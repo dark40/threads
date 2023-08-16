@@ -11,16 +11,15 @@ import ThreadsTab from "@/components/shared/ThreadsTab";
 // params is to get the id from the url
 async function Page({ params }: { params: { id: string } }) {
     const user = await currentUser()
-
     if (!user) return null;
 
     const userInfo = await fetchUser(params.id);
-
     if (!userInfo?.onboarded) redirect("/onboarding")
+
     return (
         <section>
             <ProfileHeader
-                accountId={userInfo._id}
+                accountId={userInfo.id}
                 authUserId={user.id}
                 name={userInfo.name}
                 username={userInfo.username}
@@ -48,7 +47,7 @@ async function Page({ params }: { params: { id: string } }) {
 
                                 {tab.label === 'Threads' && (
                                     <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
-                                        {userInfo?.threads?.length}
+                                        {userInfo.threads.length}
                                     </p>
 
                                 )}
@@ -64,14 +63,13 @@ async function Page({ params }: { params: { id: string } }) {
                                 >
                             <ThreadsTab
                                 currentUserId={user.id}
-                                accountId={userInfo._id}
+                                accountId={userInfo.id}
                                 accountType="User"
                             />
                         </TabsContent>
                     ))}
                 </Tabs>
             </div>
-
         </section>
     )
 }
