@@ -25,7 +25,7 @@ const ProfileHeader = ({
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
 
-                    <div className="relative h-20 w-20 object-cover">'
+                    <div className="relative h-20 w-20 object-cover">
                         <Image
                             src={imgUrl}
                             alt="profile image"

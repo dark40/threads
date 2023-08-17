@@ -9,18 +9,18 @@ interface Props {
     id: string
     name: string
     username: string
-    imageUrl: string
+    imgUrl: string
     personType: string
 }
 
-const UserCard = ({id, name, username, imageUrl, personType} : Props) => {
+const UserCard = ({id, name, username, imgUrl, personType} : Props) => {
     const router = useRouter()
 
   return (
     <article className="user-card">
         <div className="user-card_avatar">
             <Image 
-                src={imageUrl}
+                src={imgUrl}
                 alt="logo"
                 width={48}
                 height={48}
